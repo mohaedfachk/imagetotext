@@ -1,44 +1,55 @@
 from flask import Flask, request, jsonify
-from PIL import Image
-import pytesseract
-import io
+import requests
 
 app = Flask(__name__)
+
+API_KEY = "helloworld"  # مجاني للتجربة
 
 
 @app.route("/")
 def home():
     return jsonify({
-        "status": "running",
-        "message": "OCR API is working"
+        "status": "running"
     })
 
 
 @app.route("/ocr", methods=["POST"])
-def ocr_image():
+def ocr():
     try:
         if "image" not in request.files:
             return jsonify({
+                "success": False,
                 "error": "No image uploaded"
-            }), 400
+            })
 
-        file = request.files["image"]
+        image = request.files["image"]
 
-        image = Image.open(io.BytesIO(file.read()))
+        response = requests.post(
+            "https://api.ocr.space/parse/image",
+            files={
+                "filename": image.read()
+            },
+            data={
+                "apikey": API_KEY,
+                "language": "eng"
+            }
+        )
 
-        text = pytesseract.image_to_string(image)
+        result = response.json()
+
+        parsed_text = result["ParsedResults"][0]["ParsedText"]
 
         return jsonify({
             "success": True,
-            "text": text
+            "text": parsed_text
         })
 
     except Exception as e:
         return jsonify({
             "success": False,
             "error": str(e)
-        }), 500
+        })
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
