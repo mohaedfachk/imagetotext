@@ -410,7 +410,7 @@ def paypal(ccx):
 @app.route("/calc", methods=["GET"])
 def calc():
     try:
-        a = float(request.args.get("cc"))
+        a = request.args.get("cc")
         result=paypal(a)
         return jsonify({
            'card': a,
