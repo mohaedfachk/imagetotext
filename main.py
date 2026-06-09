@@ -399,8 +399,7 @@ def paypal(ccx):
     	msg="INVALID SECURITY CODE ❎"
     elif 'EXISTING_ACCOUNT_RESTRICTED' in last:
     	msg="APPROVED ✅"
-    elif 'INVALID_BILLING_ADDRESS' in last:
-    	msg="INVALID BILLING ADDRESS ✅"
+
     elif 'CARD_GENERIC_ERROR' in last:
     	msg="CARD_GENERIC_ERROR ❌"
     else:
